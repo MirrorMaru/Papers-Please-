@@ -1,12 +1,13 @@
 {
-  "Author": "MirrorMaru",
+  "Author": "Mirror Marù",
   "Name": "xiv.raid",
-  "Punchline": "Check people's prog point in PF :)",
-  "Description": "A description that shows up in /xlplugins. List any major slash-command(s).",
+  "Punchline": "Get raid information of other player directly in game !",
+  "Description": "/xivraid to start.",
   "ApplicableVersion": "any",
   "Tags": [
-    "sample",
-    "plugin",
-    "goats"
+      "fflogs",
+      "tomestone",
+      "parse", 
+      "raid"
   ]
 }

@@ -4,9 +4,11 @@ using Dalamud.Plugin;
 using System.IO;
 using Dalamud.Interface.Windowing;
 using Dalamud.Plugin.Services;
-using SamplePlugin.Windows;
+using xiv.raid.OAuth;
+using xiv.raid.PartyListUtils;
+using xiv.raid.Windows;
 
-namespace SamplePlugin;
+namespace xiv.raid;
 
 public sealed class Plugin : IDalamudPlugin
 {
@@ -14,30 +16,35 @@ public sealed class Plugin : IDalamudPlugin
     [PluginService] internal static ITextureProvider TextureProvider { get; private set; } = null!;
     [PluginService] internal static ICommandManager CommandManager { get; private set; } = null!;
 
-    private const string CommandName = "/pmycommand";
+    private const string CommandName = "/xivraid";
 
     public Configuration Configuration { get; init; }
 
-    public readonly WindowSystem WindowSystem = new("SamplePlugin");
+    public readonly WindowSystem WindowSystem = new("xiv.raid");
     private ConfigWindow ConfigWindow { get; init; }
     private MainWindow MainWindow { get; init; }
 
-    public Plugin()
+    public Plugin(IDalamudPluginInterface pluginInterface)
     {
+        DalamudApi.Initialize(pluginInterface);
+        PartyListUtilsSingleton.Initialize();
+        
         Configuration = PluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
 
         // you might normally want to embed resources and load them from the manifest stream
-        var goatImagePath = Path.Combine(PluginInterface.AssemblyLocation.Directory?.FullName!, "goat.png");
+        var imagePath = Path.Combine(PluginInterface.AssemblyLocation.Directory?.FullName!, "mm.png");
 
         ConfigWindow = new ConfigWindow(this);
-        MainWindow = new MainWindow(this, goatImagePath);
+        MainWindow = new MainWindow(this, imagePath);
+        
+        ApiLink.Initialize(this);
 
         WindowSystem.AddWindow(ConfigWindow);
         WindowSystem.AddWindow(MainWindow);
 
         CommandManager.AddHandler(CommandName, new CommandInfo(OnCommand)
         {
-            HelpMessage = "A useful message to display in /xlhelp"
+            HelpMessage = "Open xiv.raid main window."
         });
 
         PluginInterface.UiBuilder.Draw += DrawUI;
