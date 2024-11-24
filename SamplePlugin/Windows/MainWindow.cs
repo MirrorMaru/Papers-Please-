@@ -255,9 +255,11 @@ public class MainWindow : Window, IDisposable
                             {
                                 ImGui.Text(ultimate.CompactName + " : ");
                                 ImGui.SameLine();
-                                if (ultimate.Achievement != null)
+                                if (ultimate.Activity != null)
                                 {
-                                    ImGui.TextColored(new Vector4(0.118f, 1f, 0f, 1f), "Killed !");
+                                    ImGui.TextColored(new Vector4(0.118f, 1f, 0f, 1f), "Killed");
+                                    ImGui.SameLine();
+                                    ImGui.Text("in "+ultimate.Activity.Patch);
                                 }
                                 else
                                 {

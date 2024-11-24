@@ -15,6 +15,7 @@ public class ApiLink
     
     private static readonly SemaphoreSlim _tokenRefreshSemaphore = new(1, 1);
     private static readonly SemaphoreSlim _fflogsDataFetching = new(1, 1);
+    private static readonly SemaphoreSlim _tomestoneDataFetching = new(1, 1);
 
     public static ApiLink Instance
     {
@@ -187,17 +188,30 @@ public class ApiLink
 
     public async Task<String> GetTomestoneData(string server, string name)
     {
-        var client = GetAuthenticatedTomestoneHttpClient();
-        DalamudApi.PluginLog.Debug("Sending request to : " + $"{TomestoneApiBaseUrl}/{server}/{name.ToLower()}");
-        var response = await client.GetAsync($"{TomestoneApiBaseUrl}/{server.ToLower()}/{name.ToLower()}");
+        await _tomestoneDataFetching.WaitAsync();
 
-        if (!response.IsSuccessStatusCode)
+        try
         {
-            throw new Exception(
-                $"Error fetching Tomestone data: {response.StatusCode} - {await response.Content.ReadAsStringAsync()}");
+            var client = GetAuthenticatedTomestoneHttpClient();
+            DalamudApi.PluginLog.Debug("Sending request to : " + $"{TomestoneApiBaseUrl}/{server}/{name.ToLower()}");
+            var response = await client.GetAsync($"{TomestoneApiBaseUrl}/{server}/{name.ToLower()}");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception(
+                    $"Error fetching Tomestone data: {response.StatusCode} - {await response.Content.ReadAsStringAsync()}");
+            }
+
+            return await response.Content.ReadAsStringAsync();
         }
-        
-        return await response.Content.ReadAsStringAsync();
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        } finally
+        {
+            _tomestoneDataFetching.Release();
+        }
     }
     
 }

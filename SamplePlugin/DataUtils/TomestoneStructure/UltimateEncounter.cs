@@ -7,6 +7,6 @@ public class UltimateEncounter
     [JsonPropertyName("compactName")]
     public string CompactName { get; set; }
     
-    [JsonPropertyName("achievement")]
-    public Achievement? Achievement { get; set; }
+    [JsonPropertyName("activity")]
+    public Activity? Activity { get; set; }
 }

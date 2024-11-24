@@ -2,8 +2,8 @@
 
 namespace xiv.raid.DataUtils.TomestoneStructure;
 
-public class Achievement
+public class Activity
 {
-    [JsonPropertyName("id")]
-    public int Id { get; set; }
+    [JsonPropertyName("patch")]
+    public string Patch { get; set; }
 }
