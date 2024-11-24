@@ -1,8 +1,8 @@
 {
   "Author": "Mirror Marù",
-  "Name": "xiv.raid",
+  "Name": "Papers Please !",
   "Punchline": "Get raid information of other player directly in game !",
-  "Description": "/xivraid to start.",
+  "Description": "/pp to start.",
   "ApplicableVersion": "any",
   "Tags": [
       "fflogs",

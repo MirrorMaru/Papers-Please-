@@ -16,8 +16,15 @@ public class PartyList
         players.Add(player);
     }
 
-    public void RemovePlayer(Player player)
+    public void RemovePlayer(string identifier)
     {
-        players.Remove(player);
+        foreach (Player player in players)
+        {
+            if (player.internalIdentifier.Equals(identifier))
+            {
+                players.Remove(player);
+                break;
+            }
+        }
     }
 }

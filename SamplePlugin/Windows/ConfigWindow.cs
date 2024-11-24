@@ -62,7 +62,7 @@ public class ConfigWindow : Window, IDisposable
         }
         ImGui.Text("Tomestone config :");
         var configTomestoneToken = Configuration.TomestoneToken;
-        if (ImGui.InputText("Tomestone Token", ref configTomestoneToken, (uint)configTomestoneToken.Length))
+        if (ImGui.InputText("Tomestone Token", ref configTomestoneToken, 200))
         {
             Configuration.TomestoneToken = configTomestoneToken;
             Configuration.Save();

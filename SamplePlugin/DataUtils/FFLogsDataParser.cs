@@ -17,13 +17,12 @@ public static class FFLogsDataParser
             {
                 return rankings;
             }
-
-            DalamudApi.PluginLog.Error("ranking looks empty ! Received json : " + json);
+            
             return new List<Ranking>();
         }
         catch (Exception e)
         {
-            DalamudApi.PluginLog.Error(e.Message);
+            DalamudApi.PluginLog.Warning(e.Message);
             return new List<Ranking>();
         }
     }

@@ -4,6 +4,7 @@ using Dalamud.Plugin;
 using System.IO;
 using Dalamud.Interface.Windowing;
 using Dalamud.Plugin.Services;
+using xiv.raid.DataUtils;
 using xiv.raid.OAuth;
 using xiv.raid.PartyListUtils;
 using xiv.raid.Windows;
@@ -16,11 +17,11 @@ public sealed class Plugin : IDalamudPlugin
     [PluginService] internal static ITextureProvider TextureProvider { get; private set; } = null!;
     [PluginService] internal static ICommandManager CommandManager { get; private set; } = null!;
 
-    private const string CommandName = "/xivraid";
+    private const string CommandName = "/pp";
 
     public Configuration Configuration { get; init; }
 
-    public readonly WindowSystem WindowSystem = new("xiv.raid");
+    public readonly WindowSystem WindowSystem = new("Papers Please !");
     private ConfigWindow ConfigWindow { get; init; }
     private MainWindow MainWindow { get; init; }
 
@@ -28,6 +29,7 @@ public sealed class Plugin : IDalamudPlugin
     {
         DalamudApi.Initialize(pluginInterface);
         PartyListUtilsSingleton.Initialize();
+        ClassJobUtilsSingleton.Initialize();
         
         Configuration = PluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
 
@@ -44,7 +46,7 @@ public sealed class Plugin : IDalamudPlugin
 
         CommandManager.AddHandler(CommandName, new CommandInfo(OnCommand)
         {
-            HelpMessage = "Open xiv.raid main window."
+            HelpMessage = "Open Papers Please ! main window."
         });
 
         PluginInterface.UiBuilder.Draw += DrawUI;

@@ -33,7 +33,7 @@ public class ApiLink
     private string TomestoneToken;
     private const string OAuthBaseUrl = "https://www.fflogs.com/oauth/token";
     private const string FFlogsApiBaseUrl = "https://www.fflogs.com/api/v2/client";
-    private const string TomestoneApiBaseUrl = "https://tomestone.gg/api/character/profile/";
+    private const string TomestoneApiBaseUrl = "https://tomestone.gg/api/character/profile";
 
     private ApiLink(Plugin plugin)
     {
@@ -144,10 +144,11 @@ public class ApiLink
         return await response.Content.ReadAsStringAsync();
     }
 
-    public async Task<String> GetTomestoneData(string endpoint)
+    public async Task<String> GetTomestoneData(string server, string name)
     {
         var client = GetAuthenticatedTomestoneHttpClient();
-        var response = await client.GetAsync($"{TomestoneApiBaseUrl}/{endpoint}");
+        DalamudApi.PluginLog.Debug("Sending request to : " + $"{TomestoneApiBaseUrl}/{server}/{name.ToLower()}");
+        var response = await client.GetAsync($"{TomestoneApiBaseUrl}/{server.ToLower()}/{name.ToLower()}");
 
         if (!response.IsSuccessStatusCode)
         {
