@@ -46,6 +46,8 @@ public class MainWindow : Window, IDisposable
     public override void Draw()
     {
         PartyListUtilsSingleton.Instance.RefreshPartyList(partyList);
+
+        if (_SelectedMenuIndex >= partyList.players.Count) _SelectedMenuIndex = partyList.players.Count - 1;
         
         Vector2 sideBarSize = new Vector2(200, 0);
         //Sidebar
@@ -79,7 +81,7 @@ public class MainWindow : Window, IDisposable
             ImGui.Separator();
             
             ImGui.Spacing();
-            ImGui.Text("Author : Mirror Marù");
+            ImGui.Text("Author : MirrorMaru");
             ImGui.Text("Dino Nuggies  <\ue05dZodiark>");
             ImGui.Spacing();
             var image = Plugin.TextureProvider.GetFromFile(imagePath).GetWrapOrDefault();
@@ -300,7 +302,6 @@ public class MainWindow : Window, IDisposable
                     {
                         // Fetch player info asynchronously
                         var responseJson = await LogsRequester.GetPlayerInfo(player.name.ToLower(), player.region.ToLower(), player.world.ToLower(), player.job.ClassJobName);
-                        DalamudApi.PluginLog.Info("Getting info for player : "+responseJson);
 
                         // Parse the data and safely update the player's papers
                         var parsedPapers = FFLogsDataParser.GetFflogsResponseFromJson(responseJson);
@@ -343,7 +344,6 @@ public class MainWindow : Window, IDisposable
                     try
                     {
                         var responseJson = await TomestoneRequester.GetTomestoneInfo(player.world, player.name);
-                        DalamudApi.PluginLog.Info("Getting tomestone info for player : " + responseJson);
 
                         var tomestoneData = TomestoneDataParser.TomestoneDataFromJson(responseJson);
 
