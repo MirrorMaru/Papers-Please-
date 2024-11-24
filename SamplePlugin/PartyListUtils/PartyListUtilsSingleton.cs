@@ -129,12 +129,17 @@ public class PartyListUtilsSingleton
     {
         string world = DalamudApi.DataManager.GetExcelSheet<World>()[(uint)member.HomeWorld].Name.ToString();
         string region = DCUtils.GetRegionSludFromDCId(DalamudApi.DataManager.GetExcelSheet<World>()[(uint)member.HomeWorld].DataCenter.Value.Region);
-        string jobName = DalamudApi.DataManager.GetExcelSheet<ClassJob>().GetRowAt(member.ClassJobId).Name.ToString();
-        string capitalizedJobName = string.Join("", jobName
-                                                    .Split(' ')
-                                                    .Select(word => char.ToUpper(word[0]) +
-                                                                    word.Substring(1).ToLower()));
-        PlayerClassJob job = ClassJobUtilsSingleton.Instance.GetFromName(capitalizedJobName.Replace(" ", ""));
+        string capitalizedJobName = "Best Rank";
+        if (DalamudApi.DataManager.GetExcelSheet<ClassJob>().GetRowAt(member.ClassJobId).JobIndex != 0)
+        {
+            string jobName = DalamudApi.DataManager.GetExcelSheet<ClassJob>().GetRowAt(member.ClassJobId).NameEnglish.ToString();
+            capitalizedJobName = string.Join("", jobName
+                                                        .Split(' ')
+                                                        .Select(word => char.ToUpper(word[0]) +
+                                                                        word.Substring(1).ToLower()));
+            capitalizedJobName = capitalizedJobName.Replace(" ", "");
+        }
+        PlayerClassJob job = ClassJobUtilsSingleton.Instance.GetFromName(capitalizedJobName);
         Player player = new Player(member.NameString, world, region, job);
         return player;
     }
