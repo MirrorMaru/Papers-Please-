@@ -10,6 +10,6 @@ public static class TomestoneDataParser
     {
         var tomestoneResponse = JsonSerializer.Deserialize<TomestoneResponse>(json);
 
-        return new TomestoneData(tomestoneResponse.Encounters, tomestoneResponse.UltimateProgressionTarget);
+        return new TomestoneData(tomestoneResponse.Encounters);
     }
 }

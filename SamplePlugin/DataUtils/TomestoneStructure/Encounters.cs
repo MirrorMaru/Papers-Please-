@@ -7,4 +7,7 @@ public class Encounters
 {
     [JsonPropertyName("ultimate")]
     public List<UltimateEncounter> Ultimates { get; set; }
+    
+    [JsonPropertyName("ultimateProgressionTarget")]
+    public UltimateProgressionTarget UltimateProgressionTarget { get; set; }
 }

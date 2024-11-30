@@ -272,9 +272,9 @@ public class MainWindow : Window, IDisposable
                     ImGui.Spacing();
                     ImGui.Text("Prog point : ");
                     ImGui.SameLine();
-                    if (partyList.players[_SelectedMenuIndex].TomestoneData.progPoint != null)
+                    if (partyList.players[_SelectedMenuIndex].TomestoneData.Encounters.UltimateProgressionTarget != null)
                     {
-                        ImGui.Text(partyList.players[_SelectedMenuIndex].TomestoneData.progPoint);
+                        ImGui.TextUnformatted($"{partyList.players[_SelectedMenuIndex].TomestoneData.Encounters.UltimateProgressionTarget.Name} : {partyList.players[_SelectedMenuIndex].TomestoneData.Encounters.UltimateProgressionTarget.Percent}");
                     }
                     else
                     {
@@ -348,6 +348,7 @@ public class MainWindow : Window, IDisposable
                         var responseJson = await TomestoneRequester.GetTomestoneInfo(player.world, player.name);
 
                         var tomestoneData = TomestoneDataParser.TomestoneDataFromJson(responseJson);
+                        DalamudApi.PluginLog.Debug(tomestoneData.Encounters.UltimateProgressionTarget.Name + " : " + tomestoneData.Encounters.UltimateProgressionTarget.Percent + "%");
 
                         lock (player)
                         {
@@ -356,6 +357,7 @@ public class MainWindow : Window, IDisposable
                     }
                     catch (Exception e)
                     {
+                        DalamudApi.PluginLog.Error(e.Message);
                         DalamudApi.PluginLog.Debug("Error fetching info for player");
                     } finally
                     {

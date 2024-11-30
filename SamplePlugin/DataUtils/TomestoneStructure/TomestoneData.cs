@@ -3,11 +3,9 @@
 public class TomestoneData
 {
     public Encounters? Encounters;
-    public string? progPoint;
 
-    public TomestoneData(Encounters encounters, string progPoint)
+    public TomestoneData(Encounters encounters)
     {
         Encounters = encounters;
-        progPoint = progPoint;
     }
 }

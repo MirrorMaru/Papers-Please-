@@ -193,8 +193,8 @@ public class ApiLink
         try
         {
             var client = GetAuthenticatedTomestoneHttpClient();
-            DalamudApi.PluginLog.Debug("Sending request to : " + $"{TomestoneApiBaseUrl}/{server}/{name.ToLower()}");
-            var response = await client.GetAsync($"{TomestoneApiBaseUrl}/{server}/{name.ToLower()}");
+            DalamudApi.PluginLog.Debug("Sending request to : " + $"{TomestoneApiBaseUrl}/{server}/{name.ToLower()}/");
+            var response = await client.GetAsync($"{TomestoneApiBaseUrl}/{server}/{name.ToLower()}/");
 
             if (!response.IsSuccessStatusCode)
             {
