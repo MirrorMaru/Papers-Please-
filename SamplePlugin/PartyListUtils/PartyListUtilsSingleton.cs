@@ -85,18 +85,19 @@ public class PartyListUtilsSingleton
 
     public PartyList GetNewPlayer(PartyList partyList)
     {
+        PartyList copyOfMemory = CreatePartyListCopy(partyList);
         PartyList proxy = InitializePartyList();
         PartyList iterationProxy = CreatePartyListCopy(proxy);
 
-        for (int inMemPlayerIndex = 0; inMemPlayerIndex < partyList.players.Count; inMemPlayerIndex++)
+        for (int inMemPlayerIndex = 0; inMemPlayerIndex < copyOfMemory.players.Count; inMemPlayerIndex++)
         {
             for (int proxyPlayerIndex = 0; proxyPlayerIndex < iterationProxy.players.Count; proxyPlayerIndex++)
             {
-                if (partyList.players[inMemPlayerIndex].internalIdentifier
+                if (copyOfMemory.players[inMemPlayerIndex].internalIdentifier
                              .Equals(iterationProxy.players[proxyPlayerIndex].internalIdentifier))
                 {
                     //Player was already here => Remove from proxy list ( potential new player list )
-                    proxy.RemovePlayer(partyList.players[proxyPlayerIndex].internalIdentifier);
+                    proxy.RemovePlayer(copyOfMemory.players[proxyPlayerIndex].internalIdentifier);
                 }
             }
         }
