@@ -97,7 +97,7 @@ public class PartyListUtilsSingleton
                              .Equals(iterationProxy.players[proxyPlayerIndex].internalIdentifier))
                 {
                     //Player was already here => Remove from proxy list ( potential new player list )
-                    proxy.RemovePlayer(copyOfMemory.players[proxyPlayerIndex].internalIdentifier);
+                    proxy.RemovePlayer(copyOfMemory.players[inMemPlayerIndex].internalIdentifier);
                 }
             }
         }
