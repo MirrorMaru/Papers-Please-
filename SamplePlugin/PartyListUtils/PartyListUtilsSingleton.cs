@@ -107,15 +107,16 @@ public class PartyListUtilsSingleton
 
     public PartyList GetLeavers(PartyList partyList)
     {
+        PartyList partyListSnapshot = CreatePartyListCopy(partyList);
         PartyList copyOfMemory = CreatePartyListCopy(partyList);
         PartyList proxy = InitializePartyList();
 
         for (int proxyPlayerIndex = 0; proxyPlayerIndex < proxy.players.Count; proxyPlayerIndex++)
         {
-            for (int memoryPlayerIndex = 0; memoryPlayerIndex < partyList.players.Count; memoryPlayerIndex++)
+            for (int memoryPlayerIndex = 0; memoryPlayerIndex < partyListSnapshot.players.Count; memoryPlayerIndex++)
             {
                 if (proxy.players[proxyPlayerIndex].internalIdentifier
-                         .Equals(partyList.players[memoryPlayerIndex].internalIdentifier))
+                         .Equals(partyListSnapshot.players[memoryPlayerIndex].internalIdentifier))
                 {
                     //Player still in proxy = player still in party => Remove from copy of memory ( potential leavers list )
                     copyOfMemory.RemovePlayer(proxy.players[memoryPlayerIndex].internalIdentifier);

@@ -18,6 +18,7 @@ public class Player
     public bool needTomestoneFetching;
     public bool isTomestoneFetching;
     public bool noLogs;
+    public int lodestoneID;
 
     public Player(string name, string world, string region, PlayerClassJob job)
     {

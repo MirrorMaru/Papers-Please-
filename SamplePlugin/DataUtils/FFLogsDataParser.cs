@@ -26,4 +26,20 @@ public static class FFLogsDataParser
             return new List<Ranking>();
         }
     }
+
+    public static int GetLodestoneID(string json)
+    {
+        try
+        {
+            var fflogsResponse = JsonSerializer.Deserialize<FflogsResponse>(json) ?? new FflogsResponse();
+            var lodestoneId = fflogsResponse?.Data?.CharacterData?.Character?.LodestoneId;
+            
+            return lodestoneId ?? 0;
+        }
+        catch (Exception e)
+        {
+            DalamudApi.PluginLog.Warning(e.Message);
+            return 0;
+        }
+    }
 }

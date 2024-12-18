@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
 using Dalamud.Interface.Utility;
@@ -285,6 +286,27 @@ public class MainWindow : Window, IDisposable
                 {
                     partyList.players[_SelectedMenuIndex].needTomestoneFetching = true;
                 }
+
+                if (partyList.players[_SelectedMenuIndex].lodestoneID != 0)
+                {
+                    if (ImGui.Button("Open Tomestone"))
+                    {
+                        try
+                        {
+                            Process.Start(new ProcessStartInfo
+                            {
+                                FileName = "https://tomestone.gg/character/" +
+                                           partyList.players[_SelectedMenuIndex].lodestoneID + "/" +
+                                           partyList.players[_SelectedMenuIndex].name,
+                                UseShellExecute = true
+                            });
+                        }
+                        catch (Exception ex)
+                        {
+                            DalamudApi.PluginLog.Error(ex.Message);
+                        }
+                    }
+                }
             }
         }
         ImGui.EndChild();
@@ -312,6 +334,7 @@ public class MainWindow : Window, IDisposable
                         {
                             player.papers.Clear();
                             player.papers.AddRange(parsedPapers);
+                            player.lodestoneID = FFLogsDataParser.GetLodestoneID(responseJson);
                             foreach (Ranking ranking in parsedPapers)
                             {
                                 DalamudApi.PluginLog.Debug("Added for "+player.name + " : " + ranking.Encounter.Name + " (" + ranking.RankPercent + "%)");
